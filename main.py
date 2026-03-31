@@ -64,7 +64,7 @@ def filter_prescriptions(prescription_data, active_days=30):
 def main():
     pdf_path = "sample.pdf"
     if not os.path.exists(pdf_path):
-        print(f"エラー：{pdf_path} が見つからないわ。ファイル名を確認して。")
+        print(f"エラー：{pdf_path} が見つからない。ファイル名を確認して。")
         return
 
     full_text = extract_text_from_pdf(pdf_path)
