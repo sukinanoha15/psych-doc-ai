@@ -145,7 +145,7 @@ if analyze_button and uploaded_files:
 
             try:
                 full_text = extract_text_from_pdf(tmp_path)
-                client = OllamaClient(model_name="gpt-oss:20b")
+                client = OllamaClient(model_name="qwen3.5")
                 extracted_data = client.get_medical_data(full_text)
 
                 if "prescription" in extracted_data and "error" not in extracted_data:
@@ -169,12 +169,10 @@ if st.session_state.all_results:
         st.markdown(f'<div class="section-header">📄 {japanese_result.get("ファイル名", "")}</div>', unsafe_allow_html=True)
 
         # 基本情報
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("患者名", japanese_result.get("患者名", "不明"))
-        with col2:
-            st.metric("主訴", japanese_result.get("主訴", "記載なし"))
+        st.markdown(f"**患者名：** {japanese_result.get('患者名', '不明')}")
+        st.markdown(f"**主訴：** {japanese_result.get('主訴', '記載なし')}")
 
+        
         # 表形式で表示
         table_data = {
             "項目": ["現病歴", "既往歴", "検査結果"],

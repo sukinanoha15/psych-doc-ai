@@ -11,10 +11,19 @@ PRESCRIPTION_ACTIVE_DAYS = 710  # この日数以内の処方のみ表示
 def extract_text_from_pdf(pdf_path):
     """PDFからMarkdown形式でテキストを抽出する。"""
     print(f"--- Step 1: PDF解析を開始します（CPU） ---")
-    converter = DocumentConverter()
+    from docling.datamodel.pipeline_options import PdfPipelineOptions
+    from docling.document_converter import PdfFormatOption
+
+    pipeline_options = PdfPipelineOptions()
+    pipeline_options.do_ocr = False  # OCRをオフ
+
+    converter = DocumentConverter(
+        format_options={
+            "pdf": PdfFormatOption(pipeline_options=pipeline_options)
+        }
+    )
     result = converter.convert(pdf_path)
     return result.document.export_to_markdown()
-
 
 def filter_prescriptions(prescription_data, active_days=30):
     """直近active_days日以内に処方された薬剤のみ返す"""
